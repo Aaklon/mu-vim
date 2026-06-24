@@ -178,7 +178,7 @@ These resources are selected to help you master modal editing and configuring Ne
 
 Add a screenshot or video demonstration of `mu-vim` here to show off the visual aesthetics (Catppuccin Mocha theme, status lines, tree sidebar, and Alpha dashboard!).
 
-![mu-vim Dashboard Demo Placeholder](https://via.placeholder.com/800x450.png?text=mu-vim+Catppuccin+Mocha+Dashboard+Screenshot)
+![mu-vim Dashboard Demo](assets/home.png)
 *Caption: The μ-Vim dashboard greeting you on launch, showcasing the Lavender μ ASCII logo, utility shortcuts, and rotating developer tips.*
 
 ---

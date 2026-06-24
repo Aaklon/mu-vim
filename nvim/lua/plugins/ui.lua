@@ -17,7 +17,7 @@ return {
     config = function()
       require("catppuccin").setup({
         flavour = "mocha", -- Mocha is the dark theme (non-negotiable)
-        transparent_background = false,
+        transparent_background = true,
         integrations = {
           alpha = true,
           cmp = true,
@@ -46,7 +46,7 @@ return {
     config = function()
       require("lualine").setup({
         options = {
-          theme = "catppuccin", -- matching Catppuccin theme
+          theme = "auto", -- dynamically match active colorscheme (Catppuccin)
           component_separators = { left = "│", right = "│" },
           section_separators = { left = "", right = "" },
           disabled_filetypes = {
