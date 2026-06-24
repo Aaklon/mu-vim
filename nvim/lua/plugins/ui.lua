@@ -68,12 +68,12 @@ return {
   -- --- 3. Dashboard: Alpha-nvim ---
   {
     "goolord/alpha-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin" },
-    config = function()
-      local alpha = require("alpha")
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = function()
       local dashboard = require("alpha.themes.dashboard")
 
       -- The stylized Greek letter mu (μ) header in Catppuccin Mocha Lavender
+      -- The custom logo with description strings
       dashboard.section.header.val = {
         " ",
         "     ██╗    ██╗        ██╗   ██╗██╗███╗   ███╗",
@@ -104,8 +104,8 @@ return {
         button.opts.hl_shortcut = "AlphaHeader"
       end
 
-      -- Curated rotating footer items: Vim tips, resource links, and motivational lines
-      local footer_items = {
+      -- Curated rotating tips, resource links, and motivational lines
+      local tips = {
         -- --- Vim Tips ---
         "Tip: Learn motions like 'ciw' (change inner word) to edit text incredibly fast!",
         "Tip: Use 'u' to undo, 'Ctrl+r' to redo. Undo history is saved to disk and persists!",
@@ -139,16 +139,46 @@ return {
         "Motivation: Customizing your editor is the programmer's ultimate superpower.",
       }
 
-      -- Pick a random item on launch
+      -- Pick a random tip on launch
       math.randomseed(os.time())
-      local random_index = math.random(1, #footer_items)
-      dashboard.section.footer.val = footer_items[random_index]
+      local random_index = math.random(1, #tips)
+      local selected_tip = tips[random_index]
+
+      -- Define custom tips section placed just below the logo
+      local tips_section = {
+        type = "text",
+        val = selected_tip,
+        opts = {
+          position = "center",
+          hl = "AlphaTips",
+        },
+      }
+
+      -- Set color for the tips (Peach / Warm Yellow highlight)
+      vim.api.nvim_set_hl(0, "AlphaTips", { fg = "#f9e2af", italic = true })
+
+      -- Pick a random item on launch for footer (fallback before dynamic config)
+      dashboard.section.footer.val = selected_tip
       
       -- Format footer style (Catppuccin Lavender/Muted Pink color)
       vim.api.nvim_set_hl(0, "AlphaFooter", { fg = "#f5c2e7", italic = true })
       dashboard.section.footer.opts.hl = "AlphaFooter"
 
-      alpha.setup(dashboard.opts)
+      -- Reconstruct the layout to insert the tips section right below the header
+      dashboard.opts.layout = {
+        { type = "padding", val = 2 },
+        dashboard.section.header,
+        { type = "padding", val = 1 },
+        tips_section,
+        { type = "padding", val = 2 },
+        dashboard.section.buttons,
+        dashboard.section.footer,
+      }
+
+      return dashboard
+    end,
+    config = function(_, dashboard)
+      require("alpha").setup(dashboard.opts)
     end,
   },
 }
